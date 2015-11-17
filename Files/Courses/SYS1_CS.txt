@@ -1,0 +1,5 @@
+SCS2101 Data Structures and Algorithms III
+SCS2102 Group Project I
+SCS2103 Software Engineering II
+SCS2104 Programming III
+SCS2105 Computer Networks I

@@ -1,0 +1,7 @@
+IS2001 Software Engineering
+IS2002 Group Project I
+IS2004 Web Application Development
+IS2003 Marketing
+IS2005 Business Statistics
+IS2006 Business Process Management
+EN2001 Industrial Practices

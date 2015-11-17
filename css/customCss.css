@@ -1,0 +1,47 @@
+.backgroundImg{
+    background-image: url("../images/background-hd.jpg");
+    background-repeat: round;
+    min-width: 100%;
+    min-height: 550px;
+    margin: 0px;
+
+
+}
+.gap{
+    margin: 10px;
+}
+
+/**/
+.d_icon{
+    text-align: center;
+    height: 100px;
+    float: left;
+    margin: 20px;
+}
+
+.fieldTiltle{
+    font-weight: bold;
+}
+.stdField{
+    height:30px;
+    width:250px;
+    font-size:16px;
+    margin:10px;
+    border-radius:5px;
+}
+
+/**/
+
+/*#result{*/
+    /*width: 206px;*/
+    /*border: 1px solid #eaeaea;*/
+    /*position: absolute;*/
+    /*z-index: 9;*/
+    /*background: #f3f3f3;*/
+    /*list-style: none;*/
+/*}*/
+#result :hover {
+    background: #c7ddef;
+}
+
+

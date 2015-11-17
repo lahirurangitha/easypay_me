@@ -1,0 +1,7 @@
+IS1001 Programming and Problem Solving
+IS1002 Computer Systems
+IS1003 Information Systems Concepts
+IS1004 Applications Laboratory
+IS1005 Introduction to Management
+IS1006 Discrete Mathematics
+IS1007 Fundamentals of Economics

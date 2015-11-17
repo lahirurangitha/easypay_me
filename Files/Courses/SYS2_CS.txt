@@ -1,0 +1,9 @@
+SCS2106 Operating Systems I
+SCS2107 Mathematical Methods III
+SCS2108 Programming IV
+SCS2109 Database II
+SCS2110 Programming Languages Concepts
+SCS2111 Laboratory II
+SCS2112 Automata Theory
+ENH2101 Career Giudance
+SCS2008	Numerical Computing

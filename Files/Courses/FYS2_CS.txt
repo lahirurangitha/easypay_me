@@ -1,0 +1,7 @@
+SCS1107 Software Engineering I
+SCS1108 Data Structure & Algorithm II
+SCS1109 Programming II
+SCS1110 Discrete Mathematics
+SCS1111 Mathematical Methods II
+SCS1112 Foundation of Computer Science
+ENH1102 ENH - Humanities

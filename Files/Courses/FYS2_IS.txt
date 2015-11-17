@@ -1,0 +1,8 @@
+IS1008 Financial Accounting
+IS1009 Business Communication
+IS1010 Database Management
+IS1011 Systems Analysis and Design
+IS1012 Discrete Mathematics II
+IS1013 Organizational Behavior
+IS1014 Computing and Society
+EN1002 Selected Topics in Humanities
