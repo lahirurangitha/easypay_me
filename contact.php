@@ -19,15 +19,6 @@ require_once 'core/init.php';?>
 include "header.php";
 ?>
 <div class="backgroundImg container-fluid">
-<!--<style>-->
-<!---->
-<!--/*.fm {*/-->
-<!--/*    padding-left: 20%;*/-->
-<!--/*    padding-top:5%;*/-->
-<!--/*}*/-->
-<!--/**/-->
-<!--</style>-->
-
 <div class="container">
     <br>
     <div class="jumbotron col-lg-6">
