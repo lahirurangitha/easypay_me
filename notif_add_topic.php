@@ -59,7 +59,7 @@ if ($user->hasPermission('admin')) {
 
                 if($notification){
     //                echo "Successful";
-                    Redirect::to('notif_dboard.php');
+                    Redirect::to("notif_main_forum.php");
                 }
                 else {
                     echo "ERROR";
