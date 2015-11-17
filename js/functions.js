@@ -78,3 +78,14 @@ function rejectApp(){
 
 }
 
+
+/////////////////
+function successAlert(message){
+    alert(message);
+}
+
+function failedAlert(message){
+    alert(message);
+    return false;
+}
+
