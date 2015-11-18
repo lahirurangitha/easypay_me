@@ -9,8 +9,8 @@
 
 
 <!--                <img src="images/admin.jpg" class="user-image" height="150px"/>-->
-
-<nav class="navbar-default navbar-side col-lg-3" role="navigation">
+<div class="container col-lg-3">
+<nav class="navbar-default navbar-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav" id="main-menu">
             <li class="text-center">
@@ -36,4 +36,5 @@
     </div>
 
 </nav>
+</div>
 
