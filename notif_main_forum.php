@@ -70,8 +70,9 @@ if ($user->hasPermission('admin')) {
         echo "<td width=5% align=center bgcolor=#E6E6E6>".$t->datetime."</td>";
         $_SESSION['dID'] = $t->nID;
         echo "<td width=5% align=center bgcolor=#E6E6E6 data-color='red'><a href=notif_delete.php>Clear</a><br>
-                                                        <a href='#' data-toggle='modal' data-target='#assignUser'>Assign users</a>
+<a href='notif_assign_users.php'>Assign users</a>
         </td>";
+
         echo "</tr>";
     }
     }
@@ -84,24 +85,24 @@ if ($user->hasPermission('admin')) {
 </table>
         </div>
     </div>
-    <div id="assignUser" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Select Users</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Some text in the modal.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div>
+<!--    <div id="assignUser" class="modal fade" role="dialog">-->
+<!--        <div class="modal-dialog">-->
+<!--            <!-- Modal content-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+<!--                    <h4 class="modal-title">Select Users</h4>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <p>Some text in the modal.</p>-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>
 <?php
 } else {
