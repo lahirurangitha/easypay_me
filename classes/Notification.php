@@ -54,7 +54,7 @@ class Notification {
             $x = $fields['uID'];
             $tmpUser = new User();
             $tmpUser->find($x);
-            echo "This notification has been already send to " . $tmpUser->data()->username . "<br />";
+            echo "<div class='alert alert-danger'>This notification has been already send to " . $tmpUser->data()->username . "</div>";
         }
     }
 
@@ -78,7 +78,7 @@ class Notification {
         } else {
             $tmpUser = new User();
             $tmpUser->find($userID);
-            echo "This notification has been already send to " . $tmpUser->data()->username . "<br />";
+            echo "<div class='alert alert-danger'>This notification has been already send to " . $tmpUser->data()->username . "</div>";
         }
     }
 
