@@ -16,7 +16,9 @@ require_once 'core/init.php';
     include 'header.php';
 
 ?>
-<div class="backgroundImg container-fluid">
+
+<div class="container-fluid backgroundImg">
+    <div class="container-fluid">
     <br>
     <div class="col-lg-offset-5">
         <img src="images/ucsc.png" height="110px" >
@@ -28,10 +30,8 @@ require_once 'core/init.php';
         <h2><strong>Online Payment System</strong></h2>
     </div>
 
-
-
 </div>
-
+</div>
 <?php
 include "footer.php";
 ?>

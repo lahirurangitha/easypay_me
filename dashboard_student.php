@@ -44,6 +44,9 @@ if($_SESSION['admin']){
             <li>
                 <a href="changephonenumber.php"><i class="fa fa-phone fa-3x"></i> Change Phone Number</a>
             </li>
+            <li>
+                <a href="duepayments.php"><i class="fa fa-phone fa-3x"></i> Due Payments</a>
+            </li>
         </ul>
 
     </div>
@@ -62,10 +65,10 @@ if($_SESSION['admin']){
     <div class="col-md-9 col-sm-12 col-xs-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Transaction History Table
+                <h4>Transaction History Table</h4>
             </div>
             <div class="panel-body">
-                <div class="table-responsive">
+                <div class="table-responsive pre-scrollable" style="max-height:200px;">
                     <table class="table table-striped table-bordered table-hover">
                         <?php
                         $user_id = $_SESSION['userid'];   // get usr id
@@ -112,6 +115,39 @@ if($_SESSION['admin']){
             </div>
         </div>
     </div>
+<!--    nadeesh-->
+    <div id="nPanel" class="container col-lg-3">
+        <div id="paymentNotification" class="panel panel-default">
+            <div class="box-header with-border">
+                <div class="box-title">
+                    <h4 class="col-lg-offset-1"> Notifications</h4>
+                    <div class="box-tools pull-right ">
+                        <button class="btn btn-info" data-widget="collapse" data-toggle="collapse" data-target="#nBox" title="Collapse"  style="margin-top:-65px;margin-left:-35px;"><i class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+                <div id="nBox" class="container col-lg-12 box-body alert-info pre-scrollable" style="max-height:250px;">
+
+                    <?php
+                    $conn = mysqli_connect("localhost","root","","easypay_db");
+                    mysqli_select_db($conn,"easypay_db");
+                    $sql = "SELECT * FROM notification";
+                    $result = mysqli_query($conn,$sql);
+                    $data = mysqli_fetch_assoc($result);
+
+                    while($row = mysqli_fetch_assoc($result)){
+                        echo "<p>"."<b>".$row['topic']."</b>"."</p>";
+                        echo "<p>".$row['detail']."</p>";
+                    }
+                    mysqli_close($conn);
+
+                    ?>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+<!--    /nadeesh-->
 </div>
 </div>
 <?php

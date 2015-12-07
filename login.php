@@ -32,8 +32,8 @@ if($user->isLoggedIn()){
     include "header.php";
     ?>
 </div>
-
 <div class="container-fluid backgroundImg">
+<div class="container-fluid">
     <br>
     <?php
 if(Input::exists()){
@@ -119,6 +119,7 @@ if(Input::exists()){
 
     </div>
 </div>
+    </div>
 
 <?php
 include "footer.php";
