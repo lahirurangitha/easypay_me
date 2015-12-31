@@ -10,9 +10,6 @@ require_once 'core/init.php';
 
 if(isset($_POST['searchVal'])) {
     $date = $_POST['searchVal'];
-    ?>
-    <table class="table table-striped table-bordered table-hover">
-        <?php
 //        echo"<label>Transactions on $date</label><br>";
         $DayTra = DB::getInstance()->get('transaction', array('date', '=', $date));
         //foreach($MonthTra->results() as $res){
@@ -20,10 +17,19 @@ if(isset($_POST['searchVal'])) {
         //    echo"<br>";
         //}
         if (!$DayTra->count()){
-            echo 'No transactions found';
+            echo "<div class='alert alert-info'><strong>No transactions found on $date</strong></div><br>";
         }else{
-            echo"<label>Transactions on $date</label><br>";
         ?>
+
+            <div class="panel panel-default">
+            <div class="panel-heading">
+                <?php
+                echo"<label>Transactions on $date</label><br>";
+                ?>
+            </div>
+            <div class="panel-body">
+            <div class="pre-scrollable">
+            <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
             <th>#</th>
@@ -58,6 +64,9 @@ if(isset($_POST['searchVal'])) {
         ?>
         </tbody>
     </table>
+    </div>
+    </div>
+    </div>
 
 <?php
 }

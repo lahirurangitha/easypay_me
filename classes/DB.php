@@ -8,23 +8,21 @@
 
 class DB{
     private static $_instance = null;
-    private $_pdo,
-            $_query,
-            $_error = false,
-            $_results,
-            $_count = 0;
+    private $_pdo_easypay,
+        $_pdo_academic,
+        $_query,
+        $_error = false,
+        $_results,
+        $_count = 0;
 
     private function __construct() {
         try {
-            $this->_pdo = new PDO('mysql:host=' . Config::get('mysql/host') . ';dbname=' . Config::get('mysql/db'), Config::get('mysql/username'), Config::get('mysql/password'));
+            $this->_pdo_easypay = new PDO('mysql:host=' . Config::get('mysql/host') . ';dbname=' . Config::get('mysql/db'), Config::get('mysql/username'), Config::get('mysql/password'));
+            $this->_pdo_academic = new PDO('mysql:host=' . Config::get('mysql/host') . ';dbname=' . Config::get('mysql/db2'), Config::get('mysql/username'), Config::get('mysql/password'));
 //            echo "connected";
         } catch (PDOException $e) {
             die($e->getMessage());
         }
-    }
-
-    public function connect2db($db1, $db2) {
-
     }
 
     public static function getInstance() {
@@ -36,7 +34,27 @@ class DB{
 
     public function query($sql, $parms = array()){
         $this->_error = false;
-        if ($this->_query = $this->_pdo->prepare($sql)) {
+        if ($this->_query = $this->_pdo_easypay->prepare($sql)) {
+            $x = 1;
+            if (count($parms)) {
+                foreach ($parms as $param) {
+                    $this->_query->bindValue($x, $param);
+                    $x++;
+                }
+            }
+            if ($this->_query->execute()) {
+                $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);
+                $this->_count = $this->_query->rowCount();
+            } else {
+                $this->_error = true;
+            }
+        }
+        return $this;
+    }
+    //$_pdo_academic
+    public function query2($sql, $parms = array()){
+        $this->_error = false;
+        if ($this->_query = $this->_pdo_academic->prepare($sql)) {
             $x = 1;
             if (count($parms)) {
                 foreach ($parms as $param) {
@@ -82,6 +100,15 @@ class DB{
         return false;
     }
 
+    public function getAll2($action, $table, $value){
+        $sql = "{$action} FROM {$table} ";
+
+        if(!$this->query2($sql, array($value))->error()){
+            return $this;
+        }
+        return false;
+    }
+
 //    public function getField($action, $field, $table){
 //        $sql = "{$action} {$field} FROM {$table}";
 //
@@ -120,6 +147,29 @@ class DB{
         return false;
     }
 
+    public function action2($action, $table, $where = array()) {
+        if (count($where) === 3) {
+            $operators = array('=', '>', '<', '>=', '<=', 'LIKE', 'NOT LIKE');
+
+            $field      = $where[0];
+            $operator   = $where[1];
+            $value      = $where[2];
+
+            if (in_array($operator, $operators)) {
+                $sql = "{$action} FROM {$table} WHERE {$field} {$operator} ? ";
+
+                if (!$this->query2($sql, array($value))->error()) {
+                    return $this;
+                }
+            }
+        }
+        return false;
+    }
+
+    public function getID( $table, $where)
+    {
+        return $this->action('SELECT id', $table, $where);
+    }
 
     public function get($table, $where)
     {
@@ -166,6 +216,62 @@ class DB{
         $sql = "UPDATE {$table} SET {$set} WHERE id = {$id}";
 
         if(!$this->query($sql, $fields)->error()) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public function getID2( $table, $where)
+    {
+        return $this->action2('SELECT id', $table, $where);
+    }
+
+    public function get2($table, $where)
+    {
+        return $this->action2('SELECT * ', $table, $where);
+    }
+
+    public function  delete2($table, $where)
+    {
+        return $this->action2('DELETE ', $table, $where);
+    }
+
+    public function insert2($table, $fields = array()) {
+        $keys = array_keys($fields);
+        $values = '';
+        $x = 1;
+
+        foreach ($fields as $field) {
+            $values .= '?';
+            if ($x < count($fields)) {
+                $values .= ', ';
+            }
+            $x++;
+        }
+//        $sql1 = INSERT INTO `lr`.`users` (`id`, `username`, `password`, `salt`, `name`, `joined`, `group`) VALUES ('1', 'lasith', 'lasith123', 'salt', 'lasith niroshan', '2015-06-23 08:13:25', '1');
+        $sql = "INSERT INTO {$table} (`" . implode('`, `', $keys) . "`) VALUES ({$values})";
+        if (!$this->query2($sql, $fields)->error()) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public function update2($table, $id,  $fields){
+        $set = '';
+        $x = 1;
+
+        foreach($fields as $name => $value){
+            $set .= "{$name} = ?";
+            if($x < count($fields)){
+                $set .= ', ';
+            }
+            $x++;
+        }
+        $sql = "UPDATE {$table} SET {$set} WHERE id = {$id}";
+
+        if(!$this->query2($sql, $fields)->error()) {
             return true;
         }
         return false;

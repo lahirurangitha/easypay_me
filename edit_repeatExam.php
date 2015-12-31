@@ -21,8 +21,11 @@ require 'Files/accessFile.php';
 include "header.php";
 ?>
 <div class="backgroundImg container-fluid">
+    <?php
+    include "adminSidebar.php";
+    ?>
     <br>
-    <div class="jumbotron col-lg-5 col-lg-offset-3">
+    <div class="jumbotron col-lg-5 col-lg-offset-1">
 <?php
 
 $user = new User();
@@ -50,13 +53,14 @@ if ($user->hasPermission('admin')) {
 ?>
 
 <form action="" method="post">
-    <div class="field">
-        <label>Enter the new date</label>
+    <h4>Update Repeat Exam  </h4>
+    <div class="gap">
+        <label>Closing Date</label>
         <input class="form-control" type="date" name="date" id="date" value="<?php echo($inData)?>">
     </div>
 
-    <div class="field">
-        <label>Enter the new amount</label>
+    <div class="gap">
+        <label>Payment Amount</label>
         <input class="form-control" type="text" name="amount" id="amount" value="<?php echo($inAmount)?>" >
     </div>
 
