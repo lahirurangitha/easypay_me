@@ -90,11 +90,14 @@ if(Input::exists()){
 </div>
 
 <div class="backgroundImg container-fluid">
+    <?php
+    include "studentSidebar.php";
+    ?>
     <br>
-    <div class="jumbotron col-lg-6 col-lg-offset-3">
-        <h3>Please enter the other person's username</h3>
+    <div class="jumbotron col-sm-6 col-sm-offset-1">
+        <h4><strong>Please enter the other person's username</strong></h4>
         <form action="" method="post" class="form-horizontal">
-            <div>
+            <div class="gap">
                 <input class="form-control" type="text" name="username" placeholder="Username" <?php echo Input::get('username')?>>
             </div>
             <div>

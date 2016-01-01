@@ -9,7 +9,7 @@
 
 
 <!--                <img src="images/admin.jpg" class="user-image" height="150px"/>-->
-<div class="container col-lg-3">
+<div class="container col-sm-3">
 <nav class="navbar-default navbar-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav" id="main-menu">

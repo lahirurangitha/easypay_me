@@ -24,7 +24,7 @@ require 'Files/accessFile.php';
 </div>
 <div class="backgroundImg container-fluid">
     <br>
-    <div class="jumbotron col-lg-6 col-lg-offset-3">
+    <div class="jumbotron col-sm-6 col-sm-offset-3">
 <?php
 
 $notification = new smsNotification();

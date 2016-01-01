@@ -21,8 +21,11 @@ require_once 'core/init.php';
  include "header.php";
  ?>
  <div class="backgroundImg container-fluid">
+     <?php
+     include "studentSidebar.php";
+     ?>
      <br>
-     <div class="jumbotron col-lg-5 col-lg-offset-3">
+     <div class="jumbotron col-sm-5 col-sm-offset-1">
          <?php
 
 //checking if the user already logged in

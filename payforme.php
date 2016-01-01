@@ -21,9 +21,12 @@
     ?>
 </div>
 <div class="backgroundImg container-fluid">
+    <?php
+    include "studentSidebar.php";
+    ?>
     <br>
-    <div id="HomeForm" class="jumbotron col-lg-6 col-lg-offset-3">
-        <h3>Select your Payment</h3>
+    <div id="HomeForm" class="jumbotron col-sm-6 col-sm-offset-1">
+        <h3><strong>Select your Payment</strong></h3>
         <div>
             <a  href="p_UCSCregistration.php">Register to UCSC</a>
             <br><br>
@@ -33,6 +36,7 @@
         </div>
     </div>
 </div>
+
 
 
 <?php

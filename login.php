@@ -69,7 +69,7 @@ if(Input::exists()){
                     Redirect::to('dashboard_student.php');
                 }
             } else {
-                echo '<script type="text/javascript"> alert(" Sorry, Logging failed. ")</script>';
+                echo '<script type="text/javascript"> alert("Sorry, Invalid Username or Password. Please try again.")</script>';
 
 //                echo '<p> Sorry, Logging failed. </p>';
 //                echo Hash::make($pass, $user->data()->salt);
@@ -85,8 +85,8 @@ if(Input::exists()){
 ?>
 
 
-    <div id="loginForm" class="jumbotron col-lg-4 col-lg-offset-4 ">
-        <img class="col-lg-offset-4" src="images/ucsc.png" height="100px">
+    <div id="loginForm" class="jumbotron col-sm-4 col-sm-offset-4 ">
+        <img class="col-sm-offset-4" src="images/ucsc.png" height="100px">
         <form action="login.php" method="POST" class="form-horizontal">
             <div>
                 <h3 id="signin"><strong>Sign in</strong></h3>
@@ -105,7 +105,7 @@ if(Input::exists()){
             </div>
 
             <div class="gap">
-                <input class="btn btn-primary col-lg-12"  id="loginButton" type="submit" value="Sign in" name="signin"/>
+                <input class="btn btn-primary col-sm-12"  id="loginButton" type="submit" value="Sign in" name="signin"/>
             </div>
             <div id="forgotPassword" class="gap">  <a href="forgetpass.php" title="To recover your password, click here " >Forgot password?</a></div>
 
@@ -113,7 +113,7 @@ if(Input::exists()){
         </form>
         <hr>
         <div class="gap">
-            <a href="register.php"><button class="btn btn-default col-lg-12" id="signupButton">Sign up</button></a>
+            <a href="register.php"><button class="btn btn-default col-sm-12" id="signupButton">Sign up</button></a>
         </div>
 
 

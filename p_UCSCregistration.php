@@ -30,8 +30,11 @@ require 'Files/accessFile.php';
 include "header.php";
 ?>
 <div class="backgroundImg container-fluid">
+    <?php
+    include "studentSidebar.php";
+    ?>
     <br>
-    <div class="jumbotron col-lg-6 col-lg-offset-3">
+    <div class="jumbotron col-sm-6 col-sm-offset-1">
 <?php
 
 $encryptObject = new encrypt();

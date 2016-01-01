@@ -16,8 +16,11 @@ require 'Files/accessFile.php';
 include "header.php";
 ?>
 <div class="backgroundImg container-fluid">
+    <?php
+    include "studentSidebar.php";
+    ?>
     <br>
-    <div class="jumbotron col-lg-5 col-lg-offset-3">
+    <div class="jumbotron col-sm-5 col-sm-offset-1">
 <?php
 
 $user = new User();
@@ -42,7 +45,7 @@ $dayLimit = $date1-$date2;
 $dayLimit = floor($dayLimit/(60*60*24));
 
 if($dayLimit<0){
-    echo "payment is closed!";
+    echo "<div class='alert alert-danger'>payment is closed!</div>";
 }else {
 $uID = $user->data()->id;
 $uRegID = $user->data()->regNumber;
@@ -267,14 +270,16 @@ if(Input::exists()) {
         <input class="btn btn-default" type="submit" value="Next">
     </div>
 </form>
-
+<?php
+}
+?>
 </div>
 </div>
 
 <?php
-}
 include "footer.php";
 ?>
+
 
 </body>
 </html>

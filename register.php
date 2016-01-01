@@ -15,7 +15,7 @@ include 'header.php';
 ?>
 <div class="backgroundImg container-fluid" >
     <br>
-    <div id="regForm" class="jumbotron col-lg-5 col-lg-offset-3">
+    <div id="regForm" class="jumbotron col-sm-5 col-sm-offset-3">
 <?php
 //var_dump — Dumps information about a variable
 //var_dump(Token::check(Input::get('token')));
@@ -89,7 +89,7 @@ if(Input::exists()){
 
 
 
-        <img class="col-lg-offset-4" src="images/ucsc.png" height="100px">
+        <img class="col-sm-offset-4" src="images/ucsc.png" height="100px">
         <form action="" method="post">
             <div>
                 <h3 id="signup"><strong>Sign up</strong></h3>
