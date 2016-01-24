@@ -23,7 +23,7 @@ include "adminSidebar.php";
     <br>
 <div class="col-md-9 col-sm-12 col-xs-12">
     <div class="jumbotron col-lg-6 col-lg-offset-1">
-    <h3>Add topic</h3>
+    <h3><strong>Create Notification</h3>
 
 <?php
 $user = new User();
@@ -73,7 +73,7 @@ if ($user->hasPermission('admin')) {
                     $errorMsg .= $error;
                     $errorMsg .= "\n";
                 }
-                echo "<div class='alert alert-danger'>$errorMsg</div>";
+                echo "<div class='text text-danger'>$errorMsg</div>";
             }
         }
 
@@ -81,12 +81,12 @@ if ($user->hasPermission('admin')) {
 ?>
 
 <form action="" method="post" class="form-horizontal">
-    <div>
+    <div class="gap">
         <strong>Topic</strong>
         <input class="form-control" id="topic" type="text" name="topic" value="<?php echo escape(Input::get('topic')); ?>" >
     </div>
-    <div>
-        <strong>Detail</strong>
+    <div class="gap">
+        <strong>Description</strong>
         <textarea class="form-control" name="detail" cols="50" rows="3" id="detail" data-slider-value="<?php echo escape(Input::get('detail')); ?>"></textarea>
     </div>
     <input class="btn btn-default" type="submit" name="Submit" value="Submit" />

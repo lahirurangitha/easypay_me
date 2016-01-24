@@ -41,6 +41,7 @@ if(Input::exists()){
                     'unique' => 'users'
                 ),
                 'password' => array(
+					'regexPassword' => 'password',
                     'required' => true,
                     'min' => 6
                 ),
@@ -53,15 +54,24 @@ if(Input::exists()){
                     'min' => 10
                 ),
                 'nic' => array(
+					'regexNic' => 'nic',
                     'required' => true,
                     'min' => 10
-                )
+                ),
+                'email' =>array(
+                    'required' => true,
+                    'regexEmail' => 'email'
+                ),
+				'indexNumber' =>array(
+					'required' => false,
+					'min' => 8
+				)
             )
         );
         if($validation->passed()) {
 			$_SESSION['username'] = Input::get('username');
             $_SESSION['password'] = Input::get('password');
-            $_SESSION['regNo']    = Input::get('regNumber');
+            $_SESSION['indexNumber']    = Input::get('indexNumber');
             $_SESSION['name1']    = Input::get('name1');
             $_SESSION['name2']    = Input::get('name2');
             $_SESSION['email']    = Input::get('email');
@@ -69,6 +79,7 @@ if(Input::exists()){
             $_SESSION['nic']      = Input::get('nic');
             $_SESSION['dob']      = Input::get('dob');
             $_SESSION['year']     = Input::get('year');
+            $_SESSION['msgFlag'] = 1;
             Redirect::to('registerConfirm.php');
         } else {
             $str = "";
@@ -96,16 +107,16 @@ if(Input::exists()){
             </div>
 
             <div class="gap">
-                <label>Username</label><br>
+                <label>Username</label><span class="redColor" style="float: right">* Required</span><br>
                 <input class="form-control" id="username" type="text" name="username"  placeholder="Enter username" value="<?php echo Input::get('username'); ?>" autocomplete="off" >
             </div>
             <div class="gap">
-                <label>Password</label><br>
-                <input class="form-control" id="password" type="password" name="password" placeholder="Enter password">
+                <label>Password</label><span class="redColor" style="float: right">* Required</span><br>
+                <input class="form-control" id="password" type="password" name="password" placeholder="Enter password" title="Your Password must contain a digit, a capital letter, a simple letter and a special character.">
             </div>
 
             <div class="gap">
-                <label>Re-Password</label><br>
+                <label>Re-Password</label><span class="redColor" style="float: right">* Required</span><br>
                 <input class="form-control" id="password_again" type="password" name="password_again" placeholder="Enter your password again">
             </div>
 
@@ -118,19 +129,19 @@ if(Input::exists()){
                 <input class="form-control" id="name2" type="text" name="name2" placeholder="Your last name" value="<?php echo escape(Input::get('name2')); ?>">
             </div>
             <div class="gap">
-                <label>UCSC Registration No</label><br>
-                <input class="form-control" id="regNumber" type="text" name="regNumber" placeholder="UCSC registration number" value="<?php echo escape(Input::get('regNumber'));?>">
+                <label>Index No</label><br>
+                <input class="form-control" id="indexNumber" type="number" name="indexNumber" placeholder="Index number" value="<?php echo escape(Input::get('indexNumber'));?>">
             </div>
             <div class="gap">
-                <label>E-Mail</label><br>
+                <label>E-Mail</label><span class="redColor" style="float: right">* Required</span><br>
                 <input class="form-control" id="email" type="email" name="email" placeholder="email address" value="<?php echo escape(Input::get('email')); ?>">
             </div>
             <div class="gap">
-                <label>Mobile</label><br>
+                <label>Mobile</label><span class="redColor" style="float: right">* Required</span><br>
                 <input class="form-control" id="phoneNo" type="text" name="phoneNo" placeholder="Mobile number" value="<?php echo escape(Input::get('phoneNo')); ?>">
             </div>
             <div class="gap">
-                <label>N.I.C No</label><br>
+                <label>N.I.C No</label><span class="redColor" style="float: right">* Required</span><br>
                 <input class="form-control" id="nic" type="text" name="nic" placeholder="NIC number" value="<?php echo escape(Input::get('nic')); ?>">
             </div>
             <div class="gap">
@@ -149,7 +160,7 @@ if(Input::exists()){
             </div>
 
 			<div class="gap">
-                <input type="checkbox" name="accept"> I agree to the <a href="">Terms and Conditions</a> and <a href="">Privacy Policy</a>
+                <input type="checkbox" name="accept" required> I agree to the <a  href="#"  data-toggle="modal" data-target="#myModal2">Terms and conditions</a> and <a href="#"  data-toggle="modal" data-target="#myModal1">Privacy Policy</a>
             </div>
             <input type = "hidden" name="token" value="<?php echo Token::generate(); ?>">
             <input class="btn btn-default" id="next" type="submit" value="Next">

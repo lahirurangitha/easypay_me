@@ -17,12 +17,13 @@ if($user->isLoggedIn()) {
     if ($user->hasPermission('admin')) {
 //        $msg= '<p> You logged as an Administrator</p>';
         Redirect::to('dashboard_admin.php');
-    }
-    else{
+    }elseif($user->hasPermission('coord')){
 //        $msg= '<p> You logged as a Student </p>';
+        Redirect::to('dashboard_coord.php');
+    }else{
         Redirect::to('dashboard_student.php');
     }
-} else {
+}else {
     //include('loginfail.html');
     Redirect::to('homePage.php');
 //    Redirect::to('login.php');

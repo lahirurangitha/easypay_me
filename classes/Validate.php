@@ -33,23 +33,28 @@ class Validate {
                             break;
                         case 'name':
                             if(!empty($value)){
-                                $this->addError("You forgot your user name.");
+                                $this->addError("User name cannot be empty.");
                             }
                             break;
                         case 'regexPassword':
                             if(!preg_match("#[0-9]+#", $value)){
-                                $this->addError("password must be valid email address.");
+                                $this->addError("password must contain digit(s).");
                             } elseif(!preg_match("#[A-Z]+#", $value)){
-                                $this->addError("password must be valid email address.");
+                                $this->addError("password must contain captital letter(s).");
                             } elseif(!preg_match("#[a-z]+#", $value)){
-                                $this->addError("password must be valid email address.");
+                                $this->addError("password must contain simple letter(s).");
                             }  elseif(!preg_match("/[!@#$%^&*()\-_=+{};:,<.>]/", $value)){
-                                $this->addError("password must be valid email address.");
+                                $this->addError("password must contain special character(s).");
                             }
                             break;
                         case 'regexRegistrationNumber':
                             if(!preg_match('([0-9]{4}.*[a-zA-Z]{2}.*[0-9]{3})',$value)){
                                 $this->addError("Your registration number is wrong.");
+                            }
+                            break;
+                        case 'regexIndexNumber':
+                            if(!preg_match('([0-9]{8})',$value)){
+                                $this->addError("Your index number is invalid.");
                             }
                             break;
                         case 'regexString':
@@ -64,7 +69,7 @@ class Validate {
                             break;
                         case 'regexNic':
                             if(!preg_match('/^[0-9]{9}[vVxX]$/',$value)){
-                                $this->addError("Your NIC number is wrong.");
+                                $this->addError("Your NIC number is invalid.");
                             }
                             break;
                         case 'regexPhone':

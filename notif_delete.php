@@ -11,9 +11,10 @@ if(!$user->isLoggedIn()){
     Redirect::to('index.php');
 }
 //check for admin
+$id = $_GET['id'];
 if ($user->hasPermission('admin')) {
     $not = new Notification();
-    $deleteID = $_SESSION['dID'];
+    $deleteID = $id;
     $not->deleteNotification($deleteID);
     Redirect::to('notif_main_forum.php');
 } else {

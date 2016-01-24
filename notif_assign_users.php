@@ -13,6 +13,9 @@ require_once 'core/init.php';
     <head>
         <title>Notification | Page</title>
         <?php include 'headerScript.php'?>
+        <script type="text/javascript">
+
+        </script>
     </head>
 <body>
     <div id="wrapper">
@@ -25,140 +28,125 @@ require_once 'core/init.php';
 include "adminSidebar.php";
 ?>
     <br>
-<div class="container col-lg-9">
+<div class="container col-sm-9">
+    <div class="pre-scrollable" style="max-height: 200px">
 <?php
 $user = new User();
-$notif = new Notification();
+$notification = new Notification();
 $send_date = date("d/m/y h:i:s");
-if(!$user->isLoggedIn()){
-    Redirect::to('index.php');
-}
-$myNotifyID = $_SESSION['dID'];
+if(!$user->isLoggedIn()){Redirect::to('index.php');}
 //check for admin
-if (!$user->hasPermission('admin')) {
-    Redirect::to('index.php');
-}
-if(Input::get('Submit-batch')) {
-    if(Input::exists()){
-        $Syear = Input::get('Nyear');
-        //print_r($Syear);
-        foreach($Syear as $y){
-            $dataSt = $notif->getBatch($y);
-            //print_r($Syear);
-//            print_r($dataSt);
-            foreach($dataSt as $d){
-                $userid = $d->id;
-                //$notif->sendNotification($notif,$userid,$myNotifyID);
-                if(!$notif->checkWithUser($d->id, $myNotifyID)){
-                    $notif->assignBatch(array(
-                        'nID' => $myNotifyID,
-                        'uID' => $userid ,
-                        'send_date' => $send_date
-                    ));
-                } else {
-                    $tmpUser = new User();
-                    $tmpUser->find($d->id);
-                    echo "<div class='alert alert-warning'>This notification has been already send to $tmpUser->data()->username</div>";
-//                    continue;
-                }
-            }
+if (!$user->hasPermission('admin')) {Redirect::to('index.php');}
+$myNotifyID = $_GET['id'];
+$_SESSION['notfID'] = $myNotifyID;
+$oldID = $notification->getLastNotificationID();
+$newID = $oldID+1;
+
+if(isset($_POST['Submit-batch'])){
+    $Syear = Input::get('Nyear');
+//    print_r($Syear);
+    foreach((array)$Syear as $y){
+        $dataSt = $notification->getBatch($y);
+        foreach((array)$dataSt as $d){
+            $userID = $d->id;
+            //$newID=$newID+1;
+            $notification->insertUN(array(
+                    'nID'=> $myNotifyID,
+                    'uID' => $userID,
+                    'send_date' => $send_date
+                )
+            );
         }
     }
+}
+
+//code for repeat exam student part
+if(Input::get('Submit-repeat-all-student')){
+    if(Input::exists()){
+        $dataSet = $notification->getRepeatStudent();
+//    print_r($dataSet);
+        foreach((array)$dataSet as $d){
+            $index = $d->index_no;
+            $userObjet = $notification->getUserID($index);
+            foreach((array)$userObjet as $uo){
+                $userID = $uo->id;
+                $newID=$newID+1;
+//            echo $userID."<br />";
+              $notification->insertUN(array(
+                    'nID'=> $myNotifyID,
+                    'uID' => $userID,
+                    'send_date' => $send_date
+                )
+            );
+        }
+    }
+}
 }
 
 if(isset($_GET['user'])){
-    $searchUserID = $_GET['user'];
-    if(!$notif->checkWithUser($searchUserID, $myNotifyID)){
-        $notif->assignBatch(array(
-            'nID' => $myNotifyID,
-            'uID' => $searchUserID,
+    $userID = $_GET['user'];
+    $notification->insertUN(array(
+            'nID'=> $myNotifyID,
+            'uID' => $userID,
             'send_date' => $send_date
-        ));
-    } else {
-        $tmpUser = new User();
-        $tmpUser->find($searchUserID);
-        echo "<div class='alert alert-warning'>This notification has been already send to $tmpUser->data()->username </div>";
-//                    continue;
-    }
+        )
+    );
 }
-
-if(Input::get('Submit-repeat-all-student')){
-    if(Input::exists()){
-        $dataSt = $notif->getRepeatStudent();
-        foreach($dataSt as $d){
-            $userid = $d->id;
-            //$notif->sendNotification($notif,$userid,$myNotifyID);
-            if(!$notif->checkWithUser($d->id, $myNotifyID)){
-                $notif->assignBatch(array(
-                    'nID' => $myNotifyID,
-                    'uID' => $userid,
-                    'send_date' => $send_date
-                ));
-            } else {
-                $tmpUser = new User();
-                $tmpUser->find($d->id);
-                echo "<div class='alert alert-warning''>This notification has been already send to $tmpUser->data()->username </div>";
-//                    continue;
-            }
-        }
-    }
-}
-
 
 ?>
-    <div class="container col-lg-12">
-        <label for="text1">Send to<br></label>
     </div>
-<div class="container col-lg-3">
-    <form name="batch" action="" method="post">
-        <h4> Year wise </h4>
-        <li><input type="checkbox" name="Nyear[]" value="<? echo escape('1')?>" /> First Years <br></li>
-        <li><input type="checkbox" name="Nyear[]" value="<? echo escape('2')?>" /> Second Years <br></li>
-        <li><input type="checkbox" name="Nyear[]" value="<? echo escape('3')?>" /> Third Years <br></li>
-        <li><input type="checkbox" name="Nyear[]" value="<? echo escape('4')?>" /> Fourth Years <br></li>
-        <input type = "hidden" name="token_batch" value="<?php echo Token::generate(); ?>">
-        <input class="btn btn-default" type="submit" name="Submit-batch" value="Submit" />
-    </form>
-</div>
-
-    <div class="container col-lg-3">
-        <form name="repeat-all-student" action="" method="post">
-            <h4>All repeat students: </h4>
-            <li><input type="checkbox" name="repStu" value="<? echo escape('1')?>" />All repeat students<br></li>
-            <input type = "hidden" name="token_repeat-all" value="<?php echo Token::generate(); ?>">
-            <input class="btn btn-default" type="submit" name="Submit-repeat-all-student" value="Submit" />
-        </form>
-    </div>
-    <div class="container col-lg-4 ">
-    <form name="selected-student" action="" method="post">
-        <h4>Selected student</h4>
-        <div>
-            <div>
-                <input class="form-control" type="text" id="search" placeholder="Enter username to search" autocomplete="off" name="search" value="<?php echo Input::get('search')?>" onkeyup="autoSuggest('result','search_for_notification.php');"  />
-                <div>
-                    <ul id="result" class="nav navbar" ></ul>
-                </div>
+    <br>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3><strong>Assign Users</strong></h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-sm-4">
+                <form name="batch" action="" method="post">
+                    <h4><strong>Select Year Wise</strong></h4>
+                    <input type="checkbox" name="Nyear[]" value="1" /> First Years <br>
+                    <input type="checkbox" name="Nyear[]" value="2" /> Second Years <br>
+                    <input type="checkbox" name="Nyear[]" value="3" /> Third Years <br>
+                    <input type="checkbox" name="Nyear[]" value="4" /> Fourth Years <br>
+                    <input type = "hidden" name="token_batch" value="<?php echo Token::generate(); ?>">
+                    <input class="btn btn-default" type="submit" name="Submit-batch" value="Submit" />
+                </form>
             </div>
-            <div>
-                <?php
-                if(isset($msg)){
-                    echo "<div class='alert alert-danger'>$msg</div>";
-                }
-                ?>
+            <div class="container col-sm-4">
+                <form name="repeat-all-student" action="" method="post">
+                    <h4><strong>All Repeat Students</strong></h4>
+                    <input type="checkbox" name="repStu" value="<? echo escape('1')?>" />All repeat students<br>
+                    <input type = "hidden" name="token_repeat-all" value="<?php echo Token::generate(); ?>">
+                    <input class="btn btn-default" type="submit" name="Submit-repeat-all-student" value="Submit" />
+                </form>
+            </div>
+            <div class="container col-sm-4">
+                <form name="selected-student" action="" method="post">
+                    <h4><strong>Select Specific Student</strong></h4>
+                    <div>
+                        <div>
+                            <input class="form-control" type="text" id="search" placeholder="Enter username to search" autocomplete="off" name="search" value="<?php echo Input::get('search')?>" onkeyup="autoSuggest('result','search_for_notification.php');"  />
+                            <div class="pre-scrollable" style="max-height: 200px">
+                                <ul id="result" class="nav" ></ul>
+                            </div>
+                        </div>
+                        <div>
+                            <?php
+                            if(isset($msg)){
+                                echo "<div class='alert alert-danger'>$msg</div>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <input type = "hidden" name="token_selected_student" value="<?php echo Token::generate(); ?>">
+                </form>
             </div>
         </div>
-        <input type = "hidden" name="token_selected_student" value="<?php echo Token::generate(); ?>">
-    </form>
     </div>
-    </div>
+</div>
 </div>
 
 <?php
-if(isset($_POST['user'])){
-    $item = $_POST['user'];
-    $notif->sendNotification($notif,$item,$myNotifyID,$send_date);
-}
-
 include "footer.php";
 ?>
 

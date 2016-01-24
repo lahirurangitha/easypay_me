@@ -35,8 +35,14 @@ include "header.php";
     ?>
     <br>
     <div class="jumbotron col-sm-6 col-sm-offset-1">
+        <h3><strong>Registration For New Academic Year</strong></h3>
+        <?php
+        //payfor other person check
+        if(isset($_SESSION['p4o']) && $_SESSION['p4o']==1){
+            echo "<div class='text text-info'><strong>You are paying for ".$_SESSION['payeeName'].". </strong><button class='btn btn-default btn-xs'><a href='payForOtherRemove.php' title='Click here to remove other person.'>I have changed my mind</a></button></div> ";
+        }?>
+        <div class="gap">
 <?php
-
 $encryptObject = new encrypt();
 $tra = new Transaction();
 $fileObject = new accessFile();
@@ -50,7 +56,7 @@ if(!$user->isLoggedIn()){
     Redirect::to('index.php');
 }
 
-$prefix = 'easyID_';
+$prefix = 'easypayID_';
 $lastID = (integer)$tra->lastID();
 $newID = $lastID + 1;
 $transactionID = $tra->encodeEasyID($prefix, $newID);
@@ -77,20 +83,26 @@ if($dayLimit<0){
     echo "<div class='alert alert-danger'>Payment is closed.</div>";
 }else {
 //    echo "You have {$dayLimit} days for this payment." . '<br />';
-    echo "<div class='alert alert-info'>You have {$dayLimit} days for this payment.</div>";
+    echo "<div class='text text-info'>* You have {$dayLimit} days for this payment.</div>";
     $uID = $user->data()->id;
-    $uRegID = $user->data()->regNumber;
+    $uRegID = $user->data()->indexNumber;
 
     if(!$uRegID){
 //        echo "You have not submitted your registration number." . '<br />';
-        echo "<div class='alert alert-danger'>You have not submitted your registration number.</div>";
+        echo "<div class='alert alert-danger'>* You have not submitted your registration number.</div>";
     //    echo $uRegID . '<br />';
     } else {
 //        echo "Your registration number is " . $uRegID . '<br />';
-        echo "<div class='alert alert-info'>Your registration number is $uRegID</div>";
+        echo "<div class='text text-info'>* Your index number is $uRegID.</div>";
     }
 //    echo "You have to pay Rs.600 for register." . '<br />';
-    echo "<div class='alert alert-info'>You have to pay Rs.600 for register</div>";
+    $myfile = fopen("Files/data_newAcaYear", "r") or die("Unable to open file!");
+    while(!feof($myfile)) {
+        $line = fgets($myfile);
+        $arr = explode(' ',trim($line));
+    }
+    fclose($myfile);
+    echo "<div class='text text-info'>* You have to pay Rs.$arr[0] for register.</div>";
 
     $_SESSION['type'] = 2;
     $acaYear = date("Y");
@@ -103,15 +115,18 @@ if($dayLimit<0){
     ));
 
     ?>
-    <form action="https://ipg.dialog.lk/ezCashIPGExtranet/servlet_sentinal" method="post">
-
-        <input class="btn btn-default" type="submit" value="Pay via eZcash">
+    <form action="https://ipg.dialog.lk/ezCashIPGExtranet/servlet_sentinal" method="post" target="_blank">
+        <br>
+        <input class="btn btn-default btn-lg" type="submit" value="Pay via eZcash">
         <input type="hidden" value='<?php echo $Invoice; ?>' name="merchantInvoice">
         <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
     </form>
+
 <?php
 }
 ?>
+    </div>
+        <button class="btn btn-primary btn-xs col-sm-2" style="float: right" onclick="window.location.href='payforme.php'"><< Back</button>
     </div>
     </div>
 

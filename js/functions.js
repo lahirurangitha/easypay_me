@@ -64,7 +64,7 @@ function autoSuggest(dID,phpFile){
 function acceptApp(){
     var acc=0;
     if (confirm("Confirm Acceptance") == true) {
-        //httpGet('admin_repeatExamStatusUpdater.php?id=".$id."&accept=true');
+        //httpGet('coord_repeatExamStatusUpdater.php?id=".$id."&accept=true');
     }
 
 
@@ -73,7 +73,7 @@ function acceptApp(){
 function rejectApp(){
     var rej=0;
     if (confirm("Confirm Rejection") == true) {
-        //httpGet('admin_repeatExamStatusUpdater.php?id=".$id."&reject=true');
+        //httpGet('coord_repeatExamStatusUpdater.php?id=".$id."&reject=true');
     }
 
 }
@@ -87,5 +87,15 @@ function successAlert(message){
 function failedAlert(message){
     alert(message);
     return false;
+}
+///// for more than one search per page....
+function autoSuggest2(dID,phpFile){
+    //searchVal -> variable name to catch $_POST['searchVal']
+    //phpFile -> where the searching done
+    //dID -> display location
+    var searchText = $("input[name = 'search2']").val();
+    $.post(phpFile,{searchVal2:searchText},function(output){
+        $('#'+dID).html(output);
+    });
 }
 

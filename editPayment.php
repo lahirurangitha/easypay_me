@@ -12,7 +12,7 @@ require_once 'core/init.php';
     <html lang="en">
 
     <head>
-        <title>Admin | Dashboard</title>
+        <title>Update Payment | Page</title>
         <?php include 'headerScript.php'?>
     </head>
 <body>
@@ -27,9 +27,7 @@ require_once 'core/init.php';
 <?php
 include "adminSidebar.php";
 
-
 $user = new User();
-
 if(!$user->isLoggedIn()){
     Redirect::to('index.php');
 }
@@ -37,15 +35,16 @@ if(!$user->isLoggedIn()){
 if ($user->hasPermission('admin')) {
 ?>
     <br>
-    <div class="jumbotron col-lg-3 col-lg-offset-1">
-    <ul>
-        <p>
-            Edit payment details.
-        </p>
-        <li><a href="edit_UCSCregistration.php">Register to UCSC</a></li>
-        <li><a href="edit_newAcaYear.php">Register for new academic year</a></li>
-        <li><a href="edit_repeatExam.php">Pay repeat exam fees</a></li>
-    </ul>
+    <div class="jumbotron col-sm-5 col-sm-offset-1">
+        <h3><strong>Update Payment Details</strong></h3>
+        <div class="gap">
+            <ul>
+                <li><a href="edit_UCSCregistration.php">Register to UCSC</a></li>
+                <li><a href="edit_newAcaYear.php">Register for new academic year</a></li>
+                <li><a href="edit_repeatExam.php">Repeat exam payment</a></li>
+            </ul>
+        </div>
+
 </div>
 
 <?php

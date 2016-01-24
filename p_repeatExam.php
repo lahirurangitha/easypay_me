@@ -35,6 +35,7 @@ include "header.php";
     ?>
     <br>
     <div class="jumbotron col-sm-6 col-sm-offset-1">
+        <h3><strong>Repeat Exam Payment</strong></h3>
 <?php
 
 //echo "The 2 digit representation of current month with leading zero is: " . date("m") . '<br />';
@@ -66,10 +67,18 @@ if($dayLimit<0){
     echo "<div class='alert alert-danger'>Payment is closed.</div>";
 }else {
 //    echo "You have {$dayLimit} days for this payment." . '<br />';
-    echo "<div class='alert alert-info'>You have {$dayLimit} days for this payment.</div>";
+    echo "<div class='text text-info'>* You have {$dayLimit} days for this payment.</div>";
 //    echo "You have to pay Rs.20.00 to this payment.";
-    echo "<div class='alert alert-info'>You have to pay Rs.20.00 to this payment.</div>";
-    $prefix = 'easyID_';
+$myfile = fopen("Files/data_repeatExam", "r") or die("Unable to open file!");
+while(!feof($myfile)) {
+    $line = fgets($myfile);
+    $arr = explode(' ',trim($line));
+}
+fclose($myfile);
+$sb = $_SESSION['num'];
+$amt = floatval($sb*$arr[0]);
+    echo "<div class='text text-info'>* You have applyed for $sb subject(s). Total amount is Rs.$amt.00.</div>";
+    $prefix = 'easypayID_';
     $lastID = (integer)$tra->lastID();
     $newID = $lastID + 1;
     $transactionID = $tra->encodeEasyID($prefix, $newID);
@@ -92,8 +101,9 @@ if($dayLimit<0){
     $_SESSION['type'] = 3;
     ?>
 
-    <form action="https://ipg.dialog.lk/ezCashIPGExtranet/servlet_sentinal" method="post">
-        <input class="btn btn-default" type="submit" value="Pay via eZcash">
+    <form action="https://ipg.dialog.lk/ezCashIPGExtranet/servlet_sentinal" method="post" target="_blank">
+        <br>
+        <input class="btn btn-default btn-lg" type="submit" value="Pay via eZcash">
         <input type="hidden" value='<?php echo $Invoice; ?>' name="merchantInvoice">
         <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
     </form>

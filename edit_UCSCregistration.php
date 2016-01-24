@@ -12,7 +12,7 @@ require 'Files/accessFile.php';
     <!DOCTYPE html>
     <html lang="en">
     <head>
-        <title>UCSC Registration</title>
+        <title>Update UCSC Registration | Page</title>
         <?php include 'headerScript.php'?>
     </head>
 <body>
@@ -25,7 +25,7 @@ include "header.php";
     include "adminSidebar.php";
     ?>
     <br>
-    <div class="jumbotron col-lg-5 col-lg-offset-1">
+    <div class="jumbotron col-sm-5 col-sm-offset-1">
 <?php
 
 $user = new User();
@@ -53,7 +53,7 @@ if ($user->hasPermission('admin')) {
 ?>
 
 <form action="" method="post">
-    <h4>Update UCSC Registration</h4>
+    <h3><strong>Update UCSC Registration</strong></h3>
     <div class="gap">
         <label>Closing Date</label>
         <input class="form-control" type="date" name="date" id="date" value="<?php echo($inData)?>">
@@ -67,6 +67,7 @@ if ($user->hasPermission('admin')) {
     <input class="btn btn-default" type="submit" value="Save">
     <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
 </form>
+        <button class="btn btn-primary btn-xs col-sm-2" style="float: right" onclick="window.location.href='editPayment.php'"><< Back</button>
     </div>
 </div>
 <?php

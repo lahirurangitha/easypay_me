@@ -35,13 +35,16 @@ if(Input::exists()){
 //                    echo $user->data()->username;
                     //getting other person's userId
                     $opUserId = $user->data()->id;
+                    $opUserName = $user->data()->username;
+                    $opUserIndexNumber = $user->data()->indexNumber;
                     //echo '<br>'.$opUserId;
                     $_SESSION['payeeID'] = $opUserId;
+                    $_SESSION['p4o']=1;
+                    $_SESSION['payeeName'] = $opUserName;
+                    $_SESSION['o_indexNumber'] = $opUserIndexNumber;
                     //get other person's name
-                    $name2 = $user->data()->regNumber;
-                    $_SESSION['name2'] = $name2;
-
-
+//                    $name2 = $user->data()->regNumber;
+//                    $_SESSION['name2'] = $name2;
                     Redirect::to('payforme.php');
 
 //                    $tempdb = DB::getInstance();
@@ -51,24 +54,20 @@ if(Input::exists()){
 //                        echo 'userId insertion to transaction table failed.' ;
 //                    }
 
-
-
                 }else{
-                    //echo 'Not exists<br>';
-                    echo'<script type="text/javascript">
-                        alert("Username does not exists");
-                    </script>';
+                    echo'<script type="text/javascript">alert("Username does not exists");</script>';
                     //Redirect::to('payForOther.php');
                 }
             }
             //echo 'checking completed<br>';
 
-
-
         } else {
+            $str = "";
             foreach ($validation->errors() as $error) {
-                echo $error, '</ br>';
+                $str .= $error;
+                $str .= '\n';
             }
+            echo '<script type="text/javascript">alert("' . $str . '")</script>';
         }
     }
 }
@@ -105,6 +104,7 @@ if(Input::exists()){
                 <input class="btn btn-default" type="submit" value="Submit">
             </div>
         </form>
+        <button class="btn btn-primary btn-xs col-sm-2" style="float: right" onclick="window.location.href='payforme.php'"><< Back</button>
     </div>
 
 </div>

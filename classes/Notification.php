@@ -8,7 +8,7 @@
 
 class Notification {
     private $_Ndb,
-        $_Ndata;
+            $_Ndata;
 
     public function __construct($Notification = null){
         $this->_Ndb = DB::getInstance();
@@ -30,13 +30,19 @@ class Notification {
         if(!$this->_Ndb->query('DELETE FROM user_notification WHERE nID = ? AND uID = ?',array($notifyID,$userID))){
             throw new Exception('There was a problem in connection');
         }
-
     }
 
+    public function getLastNotificationID(){
+        $data = $this->_Ndb->getLast('user_notification','ss');
+        return $data->count();
+    }
+
+    //develop this to with repeat database
     public function getRepeatStudent(){
         //$field = (is_numeric($user)) ? 'id' : 'username';
-        $data = $this->_Ndb->getID('users', array('year' , '=' , 1))->results();
-
+//        $data = $this->_Ndb->getID2('results', array('repeat_status' , '=' , 1))->results();
+        $sqlLine = "SELECT index_no FROM results WHERE repeat_status = 1 GROUP BY index_no";
+        $data = $this->_Ndb->query2($sqlLine)->results();
         return $data;
     }
 
@@ -44,6 +50,29 @@ class Notification {
         //$field = (is_numeric($user)) ? 'id' : 'username';
         $data = $this->_Ndb->getID('users', array('year' , '=' , $year))->results();
 
+        return $data;
+    }
+
+    public function getUserID($index){
+        return $this->_Ndb->getID('users',array('indexNumber' , '=' , $index))->results();
+
+    }
+
+    public function getUsername($id){
+        $sql = "SELECT username FROM users WHERE id = $id";
+        $data = $this->_Ndb->query($sql)->results();
+        return $data;
+    }
+
+    public function getUserBatch($id){
+        $sql = "SELECT year FROM users WHERE id = $id";
+        $data = $this->_Ndb->query($sql)->results();
+        return $data;
+    }
+
+    public function getTopic($notifyid){
+        $sql = "SELECT topic FROM notification WHERE nID = $notifyid";
+        $data = $this->_Ndb->query($sql)->results();
         return $data;
     }
 
@@ -58,27 +87,22 @@ class Notification {
         }
     }
 
-    public function checkWithUser($userID, $notifyID){
-        $data1 = $this->_Ndb->query('SELECT * FROM user_notification WHERE uID = ? AND nID = ?',array($userID, $notifyID));
-//        $data2 = $this->_Ndb->get('user_notification', array('nID' , '=' , $notifyID))->count();
-        if($data1){
-            return false;
-        }
-        return true;
-    }
-
-    public function sendNotification($notif,$userID,$myNotifyID,$send_date ) {
-        if($notif->checkWithUser($userID, $myNotifyID)){
-            $notif->assignBatch(array(
-                'nID' => $myNotifyID,
-                'uID' => $userID,
-                'send_date' => $send_date
-            ));
-            //continue;
-        } else {
+    public function insertUN($fields){
+        if(!$this->_Ndb->insert('user_notification', $fields)){
+            //throw new Exception('There was a problem sending a notification.');
+            $userID = $fields['uID'];
             $tmpUser = new User();
             $tmpUser->find($userID);
-            echo "<div class='alert alert-danger'>This notification has been already send to " . $tmpUser->data()->username . "</div>";
+            echo "<div class='alert alert-danger alert-dismissible'>This notification has been already send to " . $tmpUser->data()->username . "<button type = 'button' class = 'close' data-dismiss = 'alert' aria-hidden = 'true'>
+      &times;
+   </button></div>";
+        } else {
+            $userID = $fields['uID'];
+            $tmpUser = new User();
+            $tmpUser->find($userID);
+            echo "<div class='alert alert-success alert-dismissible'>This notification was send successfully to " . $tmpUser->data()->username . "<button type = 'button' class = 'close' data-dismiss = 'alert' aria-hidden = 'true'>
+      &times;
+   </button></div>";
         }
     }
 
@@ -96,8 +120,8 @@ class Notification {
         return false;
     }
 
-    public function outNotifications($uID){
-        return $this->_Ndb->get('user_notification',array('uID','=',$uID))->results();
+    public function outNotifications($nID){
+        return $this->_Ndb->get('user_notification',array('nID','=',$nID))->results();
 
     }
 

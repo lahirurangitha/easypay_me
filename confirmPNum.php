@@ -9,6 +9,13 @@
 require_once 'core/init.php';
 require 'SMS/sms.php';
 require 'Files/accessFile.php';
+
+$user = new User();
+if(!$user->isLoggedIn()){
+    Redirect::to('index.php');
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,40 +28,26 @@ require 'Files/accessFile.php';
 include "header.php";
 ?>
 <div class="backgroundImg container-fluid">
+    <?php
+    if(isset($_SESSION['student'])&&$_SESSION['student']==true){
+		include "studentSidebar.php";
+	}elseif(isset($_SESSION['admin'])&&$_SESSION['admin']==true){
+		include "adminSidebar.php";
+	}elseif(isset($_SESSION['coord'])&&$_SESSION['coord']==true){
+		include "coordinatorSidebar.php";
+	}
+    ?>
     <br>
-    <div class="jumbotron col-lg-offset-3 col-lg-6">
+    <div class="jumbotron col-sm-offset-1 col-sm-6">
 <?php
-
-$user = new User();
 $notification = new smsNotification();
 $file = new accessFile();
 
-//echo "Welcome to confirm your phone number!" . '<br />';
-//echo $_SESSION['old_number'] . '<br />';
-//echo $_SESSION['new_number'] . '<br />';
-//echo $randomValue. '<br />';
-//echo gettype($rnd);
-$hiddenValue = Input::get('storeRandVal');
-$randomValue = rand(1000, 9999);
-$detailArray = $file->read('Files/RouterPhone');
-$messageArray = $file->read_newLine('Files/messages');
-
-//echo $randomValue;
-
-if(!$user->isLoggedIn()){
-    Redirect::to('index.php');
-}
-//variable for $notificationTEXT->send($from,$to,$message,$password)
-$from = $detailArray[0];
-$phNumber = $_SESSION['new_number'];
-$to ='94'.substr($phNumber,1,9);
-$pass = $detailArray[1];
-//substr($old_phone_number,7 , 9)
-$var = $notification->send($from,$to,$messageArray[1] . $randomValue ,$pass);
-//echo $var;//for db(development)
-
-if(Input::exists()){
+$randomValue = isset($_SESSION['rSend']) ? $_SESSION['rSend'] : '';
+if(!isset($_POST['data'])){
     if(Token::check(Input::get('token'))) {
+        $hiddenValue = Input::get('storeRandVal');
+
         $validate = new Validate();
         $validation = $validate->check($_POST, array(
             'rand_number' => array(
@@ -71,27 +64,48 @@ if(Input::exists()){
                     'phone' => $_SESSION['new_number']
                 ));
 //                Session::flash('home', 'Your phone number has been changed.');
-                echo "<script type='text/javascript'>successAlert('Your phone number has been changed.')</script>";
-                Redirect::to('index.php');
+                $_SESSION['s2'] = 0;
+                echo "<script>alert('Your phone number has been changed.');window.location.href='update.php';</script>";
+//                Redirect::to('index.php');
             } elseif ($randomValue != $hiddenValue) {
 //                echo "error";
 //                Session::flash('home', 'you enter wrong key code.');
-                echo "<script type='text/javascript'>failedAlert('Update failed. You enter wrong key code.');</script>";
-                Redirect::to('index.php');
+                echo "<script>alert('Update failed. You entered wrong key code.');window.location.href='confirmPNum.php';</script>";
+//                Redirect::to('index.php');
+            }
+            else{
+                echo "<script>alert('Update failed. You entered wrong key code.');window.location.href='confirmPNum.php';</script>";
             }
         } else {
+            $str = "";
             foreach ($validation->errors() as $error) {
-                echo $error, '<br />';
+                $str .= $error;
+                $str .= '\n';
             }
+			//$str = 'Verification code is required.';
+            echo '<script type="text/javascript">alert("' . $str . '")</script>';
         }
     }
 }
 ?>
+        <form name="sending2" action="sendcode_changePhone.php"  method="post">
+            <div class="field">
+                <div class="alert alert-success">Click here to send your verification code.
+                    <input class="btnbtn-info btn-xs" type="submit" value="Send">
+                </div>
 
-        <form action="" method="post" class="form-horizontal">
+            </div>
+        </form>
+        <?php
+        if(isset($_SESSION['s2']) && $_SESSION['s2']==1){
+            echo "<div class='text text-warning'><strong>Verification code has been sent to your mobile.</strong></div><br>";
+        }
+        ?>
+
+        <form name="data" action="" method="post" class="form-horizontal">
             <div class="gap">
                 <label>Enter received code here</label>
-                <input class="form-control" type="text" name="rand_number" id="rand_number">
+                <input class="form-control" type="text" name="rand_number" id="rand_number required">
             </div>
             <input type="hidden" name="storeRandVal" value="<?php echo $randomValue; ?>">
             <input class="btn btn-default" id="change" type="submit" value="Confirm verification">

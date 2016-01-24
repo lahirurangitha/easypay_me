@@ -9,4 +9,5 @@ require_once 'core/init.php';
 $user = new User();
 $user->logout();
 $_SESSION['isLoggedIn']=false;
+session_destroy();
 Redirect::to('index.php');

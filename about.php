@@ -22,7 +22,7 @@ include "header.php";
 <section>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-sm-12">
                 <h1 class="section-heading">Who are we?</h1>
                 <p class="lead section-lead">The easiest way to make payments for UCSC.</p>
                 <p class="section-paragraph">Easy-pay is an online payment system which is in partnership with Dialog Axiata PLC. We facilitate students to make payments to the University of Colombo School of Computing (UCSC) just by a click of a button! The 3 basic types of payments which Easy-pay facilitates are; </p>
@@ -42,7 +42,7 @@ include "header.php";
 <section>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-sm-12">
                 <!--<h1 class="section-heading">Section Heading</h1> -->
                 <h1 class="section-heading"> How to make a payment? </h1>
                 <p class="lead section-lead">No more queues! Transaction within seconds!!</p>
@@ -57,14 +57,19 @@ include "header.php";
 <section>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <!--<h1 class="section-heading">Section Heading</h1> -->
-                <h1 class="section-heading"> How to Register with eZ cash?</h1>
+            <!--<h1 class="section-heading">Section Heading</h1> -->
+            <h1 class="section-heading"> How to Register with eZ cash?</h1>
+            <div class="col-sm-6">
                 <img src="images/ez.png"  class="img-responsive img-thumbnail"  alt="register with ez cash" style="width:608px;height:456px;">
 
             </div>
+            <div class="col-sm-6">
+                <iframe width="420" height="315" src="https://www.youtube.com/embed/RMyl_5V03mg" frameborder="0" allowfullscreen></iframe>
+            </div>
+
         </div>
         <!-- /.row -->
+
     </div>
     <!-- /.container -->
 </section><br>

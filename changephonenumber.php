@@ -20,7 +20,13 @@ include "header.php";
 ?>
 <div class="backgroundImg container-fluid">
     <?php
-    include "studentSidebar.php";
+    if(isset($_SESSION['student'])&&$_SESSION['student']==true){
+		include "studentSidebar.php";
+	}elseif(isset($_SESSION['admin'])&&$_SESSION['admin']==true){
+		include "adminSidebar.php";
+	}elseif(isset($_SESSION['coord'])&&$_SESSION['coord']==true){
+		include "coordinatorSidebar.php";
+	}
     ?>
     <br>
     <div class="jumbotron col-sm-5 col-sm-offset-1">
@@ -55,10 +61,12 @@ if(Input::exists()){
                 Redirect::to('confirmPNum.php');
                 }
         } else {
+            $str = "";
             foreach ($validation->errors() as $error) {
-//                echo  "<script type='text/javascript'>alert('$error');</script>";
-                echo "<div class='alert alert-danger'>$error</div>";
+                $str .= $error;
+                $str .= '\n';
             }
+            echo '<script type="text/javascript">alert("' . $str . '")</script>';
         }
     }
 }

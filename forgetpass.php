@@ -13,7 +13,7 @@ require 'Files/accessFile.php';
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Login | page</title>
+    <title>Forgot password | page</title>
     <?php include 'headerScript.php'?>
 </head>
 <body>
@@ -24,7 +24,7 @@ require 'Files/accessFile.php';
 </div>
 <div id="mainWrapper" class="backgroundImg container-fluid">
     <br>
-    <div id="ForgotPassword" class="jumbotron col-lg-6 col-lg-offset-3">
+    <div id="ForgotPassword" class="jumbotron col-sm-6 col-sm-offset-3">
 <?php
 
 if(Input::exists()){
@@ -41,20 +41,24 @@ if(Input::exists()){
         $user1 = new User();
         if($user1->find($uname)){
 //            echo "User exist";
-            echo "User Found";
+            echo "<div class='text text-info'><strong>User Found. Click on your username to continue.</strong></div>";
         ?>
-            <p> <a href="forgetpassCheckPoint.php"> <?php echo escape($user1->data()->username); ?> </a> </p>
+            <p> <a href="forgetpassCheckPoint.php" onclick="return confirm('Are you sure?')"> <?php echo escape($user1->data()->username); ?> </a> </p>
         <?php
             $_SESSION['phone'] = $user1->data()->phone;
             $_SESSION['id'] = $user1->data()->id;
             $_SESSION['flag'] = 1;
         } else {
-            echo "User Not Found<br>";
+            echo "<script>alert('User Not Found');</script>";
+//            echo "User Not Found";
         }
     } else {
-        foreach ($validation->errors() as $er) {
-            echo $er, '<\ br>';
+        $str = "";
+        foreach ($validation->errors() as $error) {
+            $str .= $error;
+            $str .= '\n';
         }
+        echo '<script type="text/javascript">alert("' . $str . '")</script>';
     }
 
     }
@@ -69,17 +73,20 @@ if(Input::exists()){
 <!--    <input type="hidden" name="token" value="--><?php //echo Token::generate(); ?><!--">-->
 <!--</form>-->
 
-
-
-        <label>Username</label>
+        <h3><strong>Recover Password</strong></h3>
         <form action="" method="POST" class="form-horizontal">
+            <label>Enter Your Username</label>
             <div class="gap ">
-                <input class="form-control " required id="verification" type="text" name="name" autocomplete="off" placeholder="Enter user name" size="25" maxlength="20"/>
+                <input class="form-control " required id="verification" type="text" name="name" autocomplete="off" placeholder="Username" size="25" maxlength="20"/>
             </div>
 
             <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
+            <input class="btn btn-default" type="submit" value="Next">
         </form>
-        <a href=""><button class="btn btn-default" id="nextButton">Next</button></a>
+        <div id="names">
+
+        </div>
+
 
     </div>
 

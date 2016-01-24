@@ -86,7 +86,7 @@ class Transaction{
     }
 
     public function decodeEasyID($string){
-        $str = trim($string,"easyID_");
+        $str = trim($string,"easypayID_");
         $zeros = substr_count($str, '0');
         $decodedID = substr_replace($str, '', 0, $zeros);
         return $decodedID;

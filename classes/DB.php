@@ -224,7 +224,7 @@ class DB{
 
     public function getID2( $table, $where)
     {
-        return $this->action2('SELECT id', $table, $where);
+        return $this->action2('SELECT index_no', $table, $where);
     }
 
     public function get2($table, $where)

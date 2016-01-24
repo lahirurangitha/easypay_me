@@ -7,7 +7,7 @@
  */
 
 require_once 'core/init.php';
-
+$not = $_SESSION['notfID'];
 if(isset($_POST['searchVal'])){
     $searchUser = $_POST['searchVal'];
     $userDet = DB::getInstance();
@@ -20,10 +20,11 @@ if(isset($_POST['searchVal'])){
     }else{
         foreach($userDet->results() as $res){
             $output = $res->username;
+            $id = $res->id;
 //            $return = $res->id;
 //            echo "$output<br>";
 //            echo "<li><a href='notif_assign_users.php?user=$return'>$output</a></li>";
-            echo "<li><a href='notif_assign_users.php?user=$output'>$output</a></li>";
+            echo "<li><a href='notif_assign_users.php?id=$not&user=$id'>$output</a></li>";
 //            return $output;
         }
     }
